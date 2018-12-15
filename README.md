@@ -25,7 +25,7 @@ requests apply to all lines in the files. Likewise, if no column
 be printed in their entirety. (See examples below) A *list* may be given
 in three forms:
 
-Example   | Description
+List      | Description
 --------- | -----------
 n1        | refers to line, column or field n1
 n1,n2,... | refers to a list of n1, n2, etc.
@@ -52,36 +52,36 @@ EXAMPLES
 Print out the first and third fields from the first 10 lines of the file
 tfile, followed by columns 12 through the end of lines 6 and 8:
 
-ncut -l1-10 -f1,3 -l6,8 -c12- tfile
+`ncut -l1-10 -f1,3 -l6,8 -c12- tfile`
 
 Print out columns 5 through 12 of the output from prog:
 
-prog | ncut -c5-12
+`prog | ncut -c5-12`
 
 Note that there will be no separator placed between the individual
 columns.
 
 Print out columns 5 through 12 and 18 and 20 of file foo:
 
-ncut -c5-12 -c18,20 foo
+`ncut -c5-12 -c18,20 foo`
 
 Note that there will be spaces between columns 18 and 20. These could be
-supressed by placing ’’-s’’ before ’’-c18,20’’
+supressed by placing "-s" before "-c18,20"
 
 Print out lines 10,15 and 23 from file bar:
 
-ncut -l10,15,23 bar
+`ncut -l10,15,23 bar`
 
 Split 150 column lines from the file foo into 3 lines, each 50 columns
 long. Notice that to specify a newline it is necessary to use a
 backslash as an escape character:
 
-ncut -s’\\\
-’ -c1-50,51-100,101-150 foo
+```
+ncut -s'\
+' -c1-50,51-100,101-150 foo
+```
 
 AUTHOR
 ------
 
 Phil Spector <spector@edithst.com>
-
-------------------------------------------------------------------------
