@@ -1,0 +1,113 @@
+.TH NCUT 1 "11 Jan 1989"
+.UC
+.SH NAME 
+ncut \- print specified lines, columns and/or fields of a file
+.SH SYNOPSIS
+\fB ncut \fR [ \fB\-s\fIc\fR \fB -t\fIc\fR \fB -p -l\fIlist\fB -i\fInum\fB -c\fIlist\fB -f\fIlist\fR ... ] files
+.SH DESCRIPTION
+.I ncut 
+will print selected columns and/or fields from selected
+lines in a file or list of files.  (Fields as defined here
+are separated by any number of blanks or tabs. See the -t option
+below.) The selections
+are specified
+by giving an optional list of lines (\fB\-l\fR), followed by (optional)
+lists of column (\fB\-c\fR) or field numbers (\fB\-f\fR).  The requested 
+text will 
+be  printed to standard output in the order the requests are made,
+with a \fB\-l\fR request signalling a new group of outputted lines.
+If no \fB\-l\fR request is given, the columns and/or field 
+requests apply to all lines in the files. Likewise, if no column
+(\fB\-c\fR) or field (\fB\-f\fR) requests are given, the requested
+lines will be printed in their entirety.
+(See examples below) A \fIlist\fR may be given in three forms:
+.TP 12 
+n1           
+refers to line, column or field n1
+.TP 12 
+n1,n2,...    
+refers to a list of n1, n2, etc.
+.TP 12 
+n1-n2
+refers to a list from n1 through n2 inclusive. If n2 is 
+omitted, the list goes from n1 to the end.
+.LP
+These lists can be combined; for example 4,5-9,12 means 4,
+5 through 9 and 12.
+.SH OPTIONS
+.IP \fB\-i\fInum\fR
+specifies an increment for the preceding range of lines (\fB\-l\fR option).
+For example, if \fInum\fR is 3, then the field and/or column requests
+for every third line, starting
+with the first in the \fB\-l\fR list will be output.
+This option has no effect if it is not preceded by a \fB\-l\fR list.
+.IP \fB\-s\fIc\fR
+By default, requested fields and columns are separated by a 
+blank on output. (A ``-'' list of columns is treated as a single 
+group, and
+only the group is separated from other items by the blank.)  The
+output
+separator character can be changed to the character \fIc\fR by using 
+the -s\fIc\fR option; it takes effect for the next column or field 
+request, and continues until another -s\fIc\fR option is seen; to 
+eliminate the output separator, use -s (with no trailing character).
+.IP \fB\-t\fIc\fR
+Redefine the input field separator to be \fIc\fR. When given alone,
+the \fB\-t\fR option sets the input field separator to be a tab.
+.IP \fB\-T\fR
+When an input field separator is given with the -t option, by default
+\fBncut\fR will not print the field separator along with the selected text.
+The -T option tells \fBncut\fR to include the field separator in the output.
+.IP \fB\-p\fR
+When given with the \fB\-t\fR option, pass through lines which do not
+contain the input field separator to standard output unchanged. (Note:
+to reproduce the behavior of the UNIX command cut, use ncut -p -t )
+.IP \fB\-b\fInum\fR\fR
+specifies a buffer size to hold the lines processed by \fBncut\fR.  By
+default, \fBncut\fR starts with a buffer of 2048 bytes, and 
+reallocates memory for longer lines through a doubling strategy.
+If you know the maximum size of the lines to be processed by \fBncut\fR,
+it may be more efficient to specify this size through this option than
+to let the program deal with it dynamically.
+.SH EXAMPLES
+.LP
+Print out the first and third fields from the first 10 lines
+of the file tfile, followed by columns 12 through the end of
+lines 6 and 8:
+.BR
+
+      ncut -l1-10 -f1,3 -l6,8 -c12-  tfile
+.LP
+Print out columns 5 through 12 of the output from prog:
+.BR
+
+       prog | ncut -c5-12
+.LP
+Note that there will be no separator placed between the individual
+columns.
+.LP
+Print out columns 5 through 12 and 18 and 20 of file foo:
+.BR
+
+      ncut -c5-12 -c18,20 foo
+.LP
+Note that there will be spaces between columns 18 and 20.  These
+could be supressed by placing ``-s'' before ``-c18,20''
+.LP
+Print out lines 10,15 and 23 from file bar:
+.BR
+
+     ncut -l10,15,23 bar
+.LP
+Split 150 column lines from the file foo into 3 lines, each 50 columns long.
+Notice that to specify a newline it is necessary to use a backslash as an
+escape character:
+.BR
+
+     ncut -s'\\
+     ' -c1-50,51-100,101-150 foo
+.SH AUTHOR
+Phil Spector
+
+
+
